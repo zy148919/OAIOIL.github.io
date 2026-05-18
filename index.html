@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZHANG YU | AI-Augmented Product Manager</title>
+  <meta name="description" content="ZHANG YU - AI-Augmented Product Manager portfolio" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="mint">
+  <div class="loader" aria-hidden="true">
+    <div class="loader__shape">ZY</div>
+    <div class="loader__caption">PRODUCT SYSTEM BOOTING</div>
+  </div>
+
+  <canvas id="atmosphere" aria-hidden="true"></canvas>
+  <div class="ambient-lines" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand-mark magnetic" href="#hero" aria-label="Back to top">
+      <strong>ZHANGY</strong>
+    </a>
+  </header>
+
+  <div class="theme-dock" aria-label="Color themes">
+    <button class="theme-dot theme-dot--mint is-active" type="button" data-theme-choice="mint" aria-label="Mint violet theme"></button>
+    <button class="theme-dot theme-dot--pearl" type="button" data-theme-choice="pearl" aria-label="Pearl coral theme"></button>
+    <button class="theme-dot theme-dot--ice" type="button" data-theme-choice="ice" aria-label="Ice silver theme"></button>
+  </div>
+
+  <main>
+    <section id="hero" class="hero-scroll">
+      <div class="hero-stage">
+        <div class="hero-marquee hero-marquee--top" aria-hidden="true">
+          <div class="marquee-track">
+            <span>ZHANG YU · AI PM · PRODUCT STRATEGY ·</span>
+            <span>ZHANG YU · AI PM · PRODUCT STRATEGY ·</span>
+          </div>
+        </div>
+        <div class="hero-marquee hero-marquee--bottom" aria-hidden="true">
+          <div class="marquee-track marquee-track--reverse">
+            <span>AI 工作流 · 商业化策略 · 用户体验 · 快速落地 ·</span>
+            <span>AI 工作流 · 商业化策略 · 用户体验 · 快速落地 ·</span>
+          </div>
+        </div>
+
+        <div class="hero-mask" aria-hidden="true">
+          <div class="hero-visual">
+            <div class="portrait-frame">
+              <img src="assets/portrait.jpg" alt="" />
+              <div class="portrait-wash"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-signature" aria-hidden="true">Zhang Yu</div>
+
+        <div class="hero-copy">
+          <p class="eyebrow reveal">AI-AUGMENTED PRODUCT SYSTEM / 2026</p>
+          <h1 class="hero-title sr-only">ZHANG YU</h1>
+        </div>
+
+        <div class="hero-role reveal">
+          <span>ROLE</span>
+          <strong>AI-AUGMENTED<br>PRODUCT MANAGER</strong>
+        </div>
+        <div class="hero-promise reveal">
+          <span></span>
+          <strong>Product Thinking<br>Workflow Design<br>Commercial Strategy</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about-section">
+      <canvas id="about-field" aria-hidden="true"></canvas>
+      <div class="section-title reveal">
+        <p class="eyebrow">ABOUT ME</p>
+        <h2>ABOUT ME</h2>
+        <p>ZHANGY 的六个字母，是关于我的六个关键词，让你更快了解我。</p>
+      </div>
+      <div class="letter-lab reveal">
+        <article class="letter-item" data-keyword>
+          <span class="letter-index">01</span>
+          <div class="letter-word">Zero to One</div>
+          <button type="button" class="letter-glyph" aria-label="Zero to One">Z</button>
+          <div class="letter-copy">
+            <p>从 0 到 1 的拆解力</p>
+            <h3>能把模糊需求拆成清晰路径，把想法推进到可执行。</h3>
+          </div>
+        </article>
+        <article class="letter-item" data-keyword>
+          <span class="letter-index">02</span>
+          <div class="letter-word">Human Insight</div>
+          <button type="button" class="letter-glyph" aria-label="Human Insight">H</button>
+          <div class="letter-copy">
+            <p>用户洞察</p>
+            <h3>先理解用户动机，再设计路径和功能优先级。</h3>
+          </div>
+        </article>
+        <article class="letter-item" data-keyword>
+          <span class="letter-index">03</span>
+          <div class="letter-word">AI Workflow</div>
+          <button type="button" class="letter-glyph" aria-label="AI Workflow">A</button>
+          <div class="letter-copy">
+            <p>AI 工作流</p>
+            <h3>把 AI 工具接入分析、写作、原型和知识处理流程。</h3>
+          </div>
+        </article>
+        <article class="letter-item" data-keyword>
+          <span class="letter-index">04</span>
+          <div class="letter-word">Navigation</div>
+          <button type="button" class="letter-glyph" aria-label="Navigation">N</button>
+          <div class="letter-copy">
+            <p>路径设计</p>
+            <h3>在复杂业务里找到用户路径、信息结构和落地节奏。</h3>
+          </div>
+        </article>
+        <article class="letter-item" data-keyword>
+          <span class="letter-index">05</span>
+          <div class="letter-word">Growth Logic</div>
+          <button type="button" class="letter-glyph" aria-label="Growth Logic">G</button>
+          <div class="letter-copy">
+            <p>增长逻辑</p>
+            <h3>理解流量、转化、内容分发与商业目标之间的关系。</h3>
+          </div>
+        </article>
+        <article class="letter-item" data-keyword>
+          <span class="letter-index">06</span>
+          <div class="letter-word">Yield</div>
+          <button type="button" class="letter-glyph" aria-label="Yield">Y</button>
+          <div class="letter-copy">
+            <p>结果交付</p>
+            <h3>关注体验、表达、协作和最终交付质感。</h3>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="capabilities" class="section section--cinematic">
+      <div class="section-title reveal">
+        <p class="eyebrow">WHAT I CAN DO</p>
+        <h2>WHAT I CAN DO</h2>
+        <p>把产品判断变成可执行工作流。</p>
+      </div>
+      <div class="carousel-shell reveal" aria-label="Capabilities carousel">
+        <button class="carousel-button carousel-button--prev" type="button" aria-label="Previous capability">‹</button>
+        <div class="capability-orbit" aria-label="Capabilities">
+        <article class="orbit-card" data-carousel-card>
+          <span>01</span>
+          <h3>AI 工作流搭建</h3>
+          <p>用 Dify、Coze、NotebookLM、Trae 等工具搭建分析、写作、原型和知识处理链路。</p>
+          <small>Dify · Coze · Prompt · SOP</small>
+        </article>
+        <article class="orbit-card" data-carousel-card>
+          <span>02</span>
+          <h3>产品策略拆解</h3>
+          <p>拆解业务目标、用户路径和功能优先级，把想法推进成可执行方案。</p>
+          <small>PRD · Roadmap · MVP</small>
+        </article>
+        <article class="orbit-card" data-carousel-card>
+          <span>03</span>
+          <h3>商业化判断</h3>
+          <p>理解搜索、推荐、流量分配、转化链路和商业化策略。</p>
+          <small>Query · Recall · Conversion</small>
+        </article>
+        <article class="orbit-card" data-carousel-card>
+          <span>04</span>
+          <h3>体验与原型</h3>
+          <p>关注信息架构、交互路径、视觉表达和最终交付质感。</p>
+          <small>Axure · Figma · Prototype</small>
+        </article>
+        <article class="orbit-card" data-carousel-card>
+          <span>05</span>
+          <h3>数据意识</h3>
+          <p>用数据校验判断，识别真实问题，而不是只靠直觉。</p>
+          <small>SQL · Funnel · Metrics</small>
+        </article>
+        </div>
+        <button class="carousel-button carousel-button--next" type="button" aria-label="Next capability">›</button>
+      </div>
+    </section>
+
+    <section id="work" class="stack-section">
+      <div class="section-title reveal">
+        <p class="eyebrow">WHAT I HAVE DONE</p>
+        <h2>WHAT I HAVE DONE</h2>
+        <p>一些真实项目里的产品判断和交付片段。</p>
+      </div>
+      <div class="work-stack">
+        <article class="stack-card reveal">
+          <span>01</span>
+          <p>淘宝闪购｜医药搜索商业化策略</p>
+          <h3>参与 Query 准入、风险分层、相关性校验和扩召回流量接入，让搜索流量在安全边界内参与商业化竞争。</h3>
+          <small>Query Strategy · Risk Control · Recall</small>
+        </article>
+        <article class="stack-card reveal">
+          <span>02</span>
+          <p>抖音红果短剧｜剧场分发与新剧预约</p>
+          <h3>参与剧场频道结构重组、内容筛选体系、新剧预约和剧宣社区设计，优化用户找剧路径。</h3>
+          <small>Content Distribution · C-end Product · Conversion</small>
+        </article>
+        <article class="stack-card reveal">
+          <span>03</span>
+          <p>AI Agent｜智能体搭建与 Prompt 标准化</p>
+          <h3>完成智能体角色设定、知识库建设、Prompt 调优、SOP 沉淀和新人培训。</h3>
+          <small>Agent · Knowledge Base · Prompt Engineering</small>
+        </article>
+        <article class="stack-card reveal">
+          <span>04</span>
+          <p>IoT Project｜语音控制灯光系统</p>
+          <h3>主导树莓派、服务器和小程序三端协同，实现语音控制、远程开关和状态记录。</h3>
+          <small>IoT · Voice Control · Full-stack Logic</small>
+        </article>
+        <article class="stack-card reveal">
+          <span>05</span>
+          <p>Robot Competition｜机器人协同表演项目</p>
+          <h3>负责程序逻辑、动作编排和团队交付，完成机器人舞蹈与小车项目。</h3>
+          <small>Robotics · Teamwork · Delivery</small>
+        </article>
+      </div>
+    </section>
+
+    <section id="tools" class="section tools-section">
+      <div class="section-title reveal">
+        <p class="eyebrow">TOOLS / COLLABORATORS</p>
+        <h2>TOOLS</h2>
+        <p>我日常使用的 AI、产品和交付基础设施。</p>
+      </div>
+      <div class="tool-grid">
+        <article class="tool-card reveal" data-tilt>
+          <div class="tool-top"><span class="tool-icon">✦</span><b>[AI]</b></div>
+          <h3>ChatGPT</h3>
+          <p>思维副驾</p>
+          <p>我用它拆问题、搭框架、推演方案，把模糊想法变成结构化输出。</p>
+          <small>Strategy · Writing · Reasoning</small>
+        </article>
+        <article class="tool-card reveal" data-tilt>
+          <div class="tool-top"><span class="tool-icon">⌬</span><b>[AI]</b></div>
+          <h3>Codex</h3>
+          <p>代码施工</p>
+          <p>把产品想法变成真实页面和可运行原型，用代码验证表达。</p>
+          <small>Frontend · Refactor · Prototype</small>
+        </article>
+        <article class="tool-card reveal" data-tilt>
+          <div class="tool-top"><span class="tool-icon">◇</span><b>[AI]</b></div>
+          <h3>Dify</h3>
+          <p>Agent 工作台</p>
+          <p>搭建知识库、工作流和智能体应用，把 SOP 做成可复用系统。</p>
+          <small>Agent · RAG · Workflow</small>
+        </article>
+        <article class="tool-card reveal" data-tilt>
+          <div class="tool-top"><span class="tool-icon">▣</span><b>[AI]</b></div>
+          <h3>NotebookLM</h3>
+          <p>知识压缩器</p>
+          <p>处理资料、简历、竞品和长文档，快速提炼结构和论据。</p>
+          <small>Research · Summary · Docs</small>
+        </article>
+        <article class="tool-card reveal" data-tilt>
+          <div class="tool-top"><span class="tool-icon">F</span><b>[CRAFT]</b></div>
+          <h3>Figma</h3>
+          <p>体验表达</p>
+          <p>用来组织信息结构、视觉层级和交互路径，让方案更容易被理解。</p>
+          <small>Prototype · IA · UI</small>
+        </article>
+        <article class="tool-card reveal" data-tilt>
+          <div class="tool-top"><span class="tool-icon">⌘</span><b>[INFRA]</b></div>
+          <h3>GitHub</h3>
+          <p>版本与交付</p>
+          <p>管理代码、页面、部署和个人项目，让作品可追踪、可复用。</p>
+          <small>Version · Deploy · Workflow</small>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="contact-marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>LET'S BUILD SOMETHING REAL · LET'S BUILD SOMETHING REAL ·</span>
+          <span>LET'S BUILD SOMETHING REAL · LET'S BUILD SOMETHING REAL ·</span>
+        </div>
+      </div>
+      <div class="contact-inner reveal">
+        <p class="eyebrow">CONTACT</p>
+        <h2>LET'S BUILD<br><span>SOMETHING REAL.</span></h2>
+        <div class="contact-links">
+          <button type="button" data-copy="1489197526@qq.com"><span>EMAIL</span><strong>1489197526@qq.com</strong></button>
+          <button type="button" data-copy="13785113103"><span>PHONE</span><strong>13785113103</strong></button>
+          <button type="button" data-copy="zyxsdwx"><span>WECHAT</span><strong>zyxsdwx</strong></button>
+        </div>
+      </div>
+      <footer>© ZHANG YU · AI-AUGMENTED PRODUCT MANAGER</footer>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
