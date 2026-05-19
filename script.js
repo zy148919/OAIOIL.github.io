@@ -268,7 +268,7 @@ function updateHeroMask() {
   heroStage.style.setProperty("--hero-mask-light", String(clamp((progress - 0.04) / 0.5)));
   heroStage.style.setProperty("--marquee-opacity", String(clamp((progress - 0.22) / 0.34)));
   heroStage.style.setProperty("--hero-copy-opacity", String(clamp(1 - (progress - 0.02) / 0.22)));
-  heroSignature?.style.setProperty("--signature-progress", String(clamp((progress - 0.01) / 0.32)));
+  heroSignature?.style.setProperty("--signature-progress", String(clamp((progress - 0.055) / 0.3)));
 
   if (heroCopy) {
     heroCopy.style.transform = `translateY(${-progress * 26}px)`;
