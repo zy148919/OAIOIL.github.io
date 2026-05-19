@@ -1,1 +1,5 @@
 .preview.pid
+.preview.log
+.preview.err.log
+Thumbs.db
+.DS_Store

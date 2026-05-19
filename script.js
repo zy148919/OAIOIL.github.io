@@ -1,16 +1,79 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+if (!location.hash) {
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+}
+
 document.body.classList.add("is-loading");
+
+let lenis = null;
+
+function normalizeWheelInput({ deltaY, event }) {
+  if (!event || event.type !== "wheel") return deltaY;
+
+  const rawDelta = Math.abs(event.deltaY);
+  const isLineWheel = event.deltaMode === 1;
+  const isCoarseWheel = isLineWheel || rawDelta >= 80;
+
+  if (!isCoarseWheel) return deltaY;
+
+  const direction = Math.sign(deltaY) || 1;
+  const softened = Math.min(Math.abs(deltaY) * 0.9, window.innerHeight * 0.54);
+  return direction * softened;
+}
+
+if (!prefersReducedMotion && window.Lenis) {
+  lenis = new Lenis({
+    duration: 1.00,
+    easing: (t) => 1 - Math.pow(1 - t, 3),
+    smoothWheel: true,
+    wheelMultiplier: 0.96,
+    touchMultiplier: 1.45,
+    virtualScroll: (input) => {
+      input.deltaY = normalizeWheelInput(input);
+    }
+  });
+
+  lenis.on("scroll", updateScrollEffects);
+
+  const rafLenis = (time) => {
+    lenis.raf(time);
+    requestAnimationFrame(rafLenis);
+  };
+
+  requestAnimationFrame(rafLenis);
+}
 
 window.addEventListener("load", () => {
   const loader = document.querySelector(".loader");
   window.setTimeout(() => {
     loader?.classList.add("is-hidden");
     document.body.classList.remove("is-loading");
+    if (!location.hash) {
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      }
+    }
     revealHero();
     updateScrollEffects();
-  }, prefersReducedMotion ? 100 : 1450);
+  }, prefersReducedMotion ? 100 : 2550);
+});
+
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (event) => {
+    if (!lenis) return;
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+    event.preventDefault();
+    lenis.scrollTo(target);
+  });
 });
 
 const revealItems = Array.from(document.querySelectorAll(".reveal"));
@@ -27,7 +90,9 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealItems.forEach((item, index) => {
-  item.style.transitionDelay = `${Math.min(index * 42, 360)}ms`;
+  item.style.transitionDelay = item.matches(".section-title, .stack-card")
+    ? "0ms"
+    : `${Math.min(index * 34, 300)}ms`;
   revealObserver.observe(item);
 });
 
@@ -183,6 +248,7 @@ const heroScroll = document.querySelector(".hero-scroll");
 const heroStage = document.querySelector(".hero-stage");
 const heroMask = document.querySelector(".hero-mask");
 const heroCopy = document.querySelector(".hero-copy");
+const stackSection = document.querySelector(".stack-section");
 const stackCards = Array.from(document.querySelectorAll(".stack-card"));
 const sectionTitles = Array.from(document.querySelectorAll(".section-title"));
 
@@ -209,27 +275,38 @@ function updateHeroMask() {
 function updateSectionTitles() {
   sectionTitles.forEach((title) => {
     const rect = title.getBoundingClientRect();
-    const start = window.innerHeight * 0.82;
-    const end = window.innerHeight * 0.58;
+    const start = window.innerHeight * 0.9;
+    const end = window.innerHeight * 0.78;
     const progress = clamp((start - rect.top) / (start - end));
     title.style.setProperty("--title-progress", progress.toFixed(3));
   });
 }
 
-function updateStackCards() {
+function renderStackCards(stackProgress) {
   stackCards.forEach((card, index) => {
+    const targetGap = index * 34;
+    card.style.zIndex = String(index + 1);
+
     if (index === 0) {
-      card.style.transform = "translateY(0) scale(1) rotate(0deg)";
+      card.style.transform = `translateY(${targetGap}px) scale(1) rotate(0deg)`;
       return;
     }
 
-    const rect = card.getBoundingClientRect();
-    const progress = clamp((window.innerHeight * 0.74 - rect.top) / (window.innerHeight * 0.72));
-    const lift = -progress * Math.min(92, index * 24);
-    const scale = 1 - progress * 0.012;
-    const rotate = (index % 2 === 0 ? -1 : 1) * progress * 0.28;
-    card.style.transform = `translateY(${lift}px) scale(${scale}) rotate(${rotate}deg)`;
+    const cardProgress = clamp((stackProgress - (index - 1) * 0.2) / 0.2);
+    const entryY = window.innerHeight * 0.54 + index * 46;
+    const eased = cardProgress;
+    const y = entryY + (targetGap - entryY) * eased;
+    const scale = 0.985 + eased * 0.015;
+    const rotate = (index % 2 === 0 ? -1 : 1) * (1 - eased) * 0.42;
+    card.style.transform = `translateY(${y}px) scale(${scale}) rotate(${rotate}deg)`;
   });
+}
+
+function updateStackCards() {
+  if (!stackSection || !stackCards.length) return;
+  const sectionRect = stackSection.getBoundingClientRect();
+  const travel = Math.max(1, window.innerHeight * 1.8);
+  renderStackCards(clamp(-sectionRect.top / travel));
 }
 
 function updateScrollEffects() {
@@ -241,20 +318,41 @@ function updateScrollEffects() {
 window.addEventListener("scroll", updateScrollEffects, { passive: true });
 updateScrollEffects();
 
-document.querySelectorAll("[data-keyword]").forEach((item) => {
-  const lab = item.closest(".letter-lab");
-  const activate = () => {
-    lab?.classList.add("has-active");
-    item.classList.add("is-active");
+document.querySelectorAll(".letter-lab").forEach((lab) => {
+  const items = Array.from(lab.querySelectorAll("[data-keyword]"));
+  let activeItem = null;
+
+  const setActive = (nextItem) => {
+    if (!nextItem || nextItem === activeItem) return;
+    items.forEach((item) => item.classList.remove("is-active"));
+    activeItem = nextItem;
+    lab.classList.add("has-active");
+    activeItem.classList.add("is-active");
   };
-  const deactivate = () => {
-    item.classList.remove("is-active");
-    if (!lab?.querySelector(".is-active")) lab?.classList.remove("has-active");
+
+  const clearActive = () => {
+    items.forEach((item) => item.classList.remove("is-active"));
+    activeItem = null;
+    lab.classList.remove("has-active");
   };
-  item.addEventListener("pointerenter", activate);
-  item.addEventListener("pointerleave", deactivate);
-  item.addEventListener("focusin", activate);
-  item.addEventListener("focusout", deactivate);
+
+  lab.addEventListener("pointermove", (event) => {
+    const nearest = items.reduce((best, item) => {
+      const rect = item.getBoundingClientRect();
+      const dx = event.clientX - (rect.left + rect.width / 2);
+      const dy = event.clientY - (rect.top + rect.height / 2);
+      const distance = dx * dx + dy * dy;
+      return !best || distance < best.distance ? { item, distance } : best;
+    }, null);
+    setActive(nearest?.item);
+  });
+
+  lab.addEventListener("pointerleave", clearActive);
+
+  items.forEach((item) => {
+    item.addEventListener("focusin", () => setActive(item));
+    item.addEventListener("focusout", clearActive);
+  });
 });
 
 const carousel = document.querySelector(".capability-orbit");
@@ -265,34 +363,60 @@ let carouselAngle = 0;
 let dragStartX = 0;
 let dragStartAngle = 0;
 let isDraggingCarousel = false;
+let carouselRaf = 0;
 
 function renderCarousel() {
   if (!carouselCards.length) return;
   const count = carouselCards.length;
   const step = 360 / count;
-  const radius = Math.min(window.innerWidth * 0.34, 520);
+  const radius = Math.min(window.innerWidth * 0.28, 390);
   carouselCards.forEach((card, index) => {
     const angle = index * step + carouselAngle;
     const normalized = ((angle % 360) + 360) % 360;
     const frontness = Math.cos((normalized * Math.PI) / 180);
-    const opacity = 0.36 + Math.max(0, frontness) * 0.64;
+    const opacity = 0.18 + Math.pow(Math.max(0, frontness), 1.65) * 0.82;
     card.style.opacity = opacity.toFixed(3);
     card.style.transform = `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`;
     card.style.zIndex = String(Math.round(frontness * 100));
   });
 }
 
+function animateCarouselTo(nextAngle) {
+  if (carouselRaf) cancelAnimationFrame(carouselRaf);
+  const startAngle = carouselAngle;
+  const delta = nextAngle - startAngle;
+  const duration = 620;
+  const start = performance.now();
+
+  const tick = (now) => {
+    const progress = clamp((now - start) / duration);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    carouselAngle = startAngle + delta * eased;
+    renderCarousel();
+
+    if (progress < 1) {
+      carouselRaf = requestAnimationFrame(tick);
+    } else {
+      carouselAngle = nextAngle;
+      carouselRaf = 0;
+      renderCarousel();
+    }
+  };
+
+  carouselRaf = requestAnimationFrame(tick);
+}
+
 prevButton?.addEventListener("click", () => {
-  carouselAngle += 72;
-  renderCarousel();
+  animateCarouselTo(carouselAngle + 72);
 });
 
 nextButton?.addEventListener("click", () => {
-  carouselAngle -= 72;
-  renderCarousel();
+  animateCarouselTo(carouselAngle - 72);
 });
 
 carousel?.addEventListener("pointerdown", (event) => {
+  if (carouselRaf) cancelAnimationFrame(carouselRaf);
+  carouselRaf = 0;
   isDraggingCarousel = true;
   dragStartX = event.clientX;
   dragStartAngle = carouselAngle;
@@ -366,9 +490,11 @@ document.querySelectorAll("[data-tilt]").forEach((card) => {
     const py = (event.clientY - rect.top) / rect.height;
     const rotateY = (px - 0.5) * 7;
     const rotateX = (0.5 - py) * 7;
+    const magneticX = card.classList.contains("tool-card") ? (px - 0.5) * 12 : 0;
+    const magneticY = card.classList.contains("tool-card") ? (py - 0.5) * 14 : 0;
     card.style.setProperty("--mx", `${px * 100}%`);
     card.style.setProperty("--my", `${py * 100}%`);
-    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    card.style.transform = `translate3d(${magneticX}px, ${magneticY}px, 0) perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
   });
 
   card.addEventListener("pointerleave", () => {
