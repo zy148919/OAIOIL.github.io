@@ -1354,6 +1354,10 @@ button {
   color: var(--ink);
 }
 
+.contact-links > .contact-qr-trigger {
+  border-bottom: 0;
+}
+
 .wechat-qr-panel {
   display: grid;
   justify-self: end;
