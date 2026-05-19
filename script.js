@@ -248,6 +248,7 @@ const heroScroll = document.querySelector(".hero-scroll");
 const heroStage = document.querySelector(".hero-stage");
 const heroMask = document.querySelector(".hero-mask");
 const heroCopy = document.querySelector(".hero-copy");
+const heroSignature = document.querySelector(".hero-signature");
 const stackSection = document.querySelector(".stack-section");
 const stackCards = Array.from(document.querySelectorAll(".stack-card"));
 const sectionTitles = Array.from(document.querySelectorAll(".section-title"));
@@ -259,12 +260,15 @@ function updateHeroMask() {
   const progress = clamp(-rect.top / scrollable);
   const eased = 1 - Math.pow(1 - progress, 3);
 
-  heroStage.style.setProperty("--hero-inset", `${eased * 29}%`);
-  heroStage.style.setProperty("--hero-side", `${eased * 32}%`);
+  heroStage.style.setProperty("--hero-inset-top", `${eased * 22}%`);
+  heroStage.style.setProperty("--hero-inset-bottom", `${eased * 14}%`);
+  heroStage.style.setProperty("--hero-side", `${eased * 24}%`);
   heroStage.style.setProperty("--hero-radius", `${eased * 34}px`);
   heroStage.style.setProperty("--hero-scale", `${1 - eased * 0.03}`);
+  heroStage.style.setProperty("--hero-mask-light", String(clamp((progress - 0.04) / 0.5)));
   heroStage.style.setProperty("--marquee-opacity", String(clamp((progress - 0.22) / 0.34)));
   heroStage.style.setProperty("--hero-copy-opacity", String(clamp(1 - (progress - 0.02) / 0.22)));
+  heroSignature?.style.setProperty("--signature-progress", String(clamp((progress - 0.01) / 0.32)));
 
   if (heroCopy) {
     heroCopy.style.transform = `translateY(${-progress * 26}px)`;
@@ -466,6 +470,26 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
       button.dataset.copied = "false";
     }
   });
+});
+
+const qrLinks = document.querySelector(".contact-links");
+const qrToggle = document.querySelector("[data-qr-toggle]");
+const qrPanel = document.querySelector("#wechat-qr-panel");
+const qrClose = document.querySelector("[data-qr-close]");
+
+const setQrOpen = (isOpen) => {
+  qrLinks?.classList.toggle("is-qr-open", isOpen);
+  qrToggle?.setAttribute("aria-expanded", String(isOpen));
+  qrPanel?.setAttribute("aria-hidden", String(!isOpen));
+};
+
+qrToggle?.addEventListener("click", () => {
+  const isOpen = qrLinks?.classList.contains("is-qr-open") || false;
+  setQrOpen(!isOpen);
+});
+
+qrClose?.addEventListener("click", () => {
+  setQrOpen(false);
 });
 
 document.querySelectorAll(".magnetic").forEach((element) => {
