@@ -242,26 +242,109 @@ button {
 .brand-mark {
   display: inline-flex;
   align-items: center;
+  gap: 0.58rem;
+  min-height: 2.35rem;
+  border: 1px solid rgba(255,255,255,0.58);
+  border-radius: 0.18rem;
+  background: rgba(21,22,28,0.84);
+  padding: 0.44rem 0.66rem 0.44rem 0.54rem;
+  color: #fff6ef;
+  box-shadow: 0 18px 46px rgba(21,22,28,0.14), inset 0 1px 0 rgba(255,255,255,0.18);
+  text-decoration: none;
+  backdrop-filter: blur(18px) saturate(132%);
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
-.brand-mark {
-  gap: 0;
-  padding: 0;
+.brand-mark:hover {
+  background: rgba(21,22,28,0.92);
+  box-shadow: 0 20px 54px rgba(21,22,28,0.18), inset 0 1px 0 rgba(255,255,255,0.22);
+  transform: translateY(-1px);
+}
+
+.brand-symbol {
+  position: relative;
+  display: inline-grid;
+  width: 1.32rem;
+  height: 1.32rem;
+  flex: 0 0 auto;
+}
+
+.brand-symbol::before,
+.brand-symbol::after,
+.brand-symbol__slash,
+.brand-symbol__bar {
+  position: absolute;
+  display: block;
+  background: var(--coral);
+  content: "";
+}
+
+.brand-symbol::before {
+  left: 0.08rem;
+  bottom: 0.03rem;
+  width: 0.28rem;
+  height: 1.05rem;
+  transform: skew(-28deg);
+  transform-origin: bottom left;
+}
+
+.brand-symbol::after {
+  right: 0.14rem;
+  bottom: 0.03rem;
+  width: 0.28rem;
+  height: 1.05rem;
+  transform: skew(28deg);
+  transform-origin: bottom right;
+}
+
+.brand-symbol__slash {
+  left: 0.39rem;
+  bottom: 0.18rem;
+  width: 0.54rem;
+  height: 0.22rem;
+  transform: skew(-20deg);
+}
+
+.brand-symbol__bar {
+  left: 0.12rem;
+  bottom: 0;
+  width: 1.03rem;
+  height: 0.24rem;
+  transform: skew(-18deg);
+}
+
+.brand-word {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.32rem;
+  white-space: nowrap;
 }
 
 .brand-mark strong {
   font-family: "Arial Black", Inter, sans-serif;
-  font-size: clamp(1.05rem, 1.7vw, 1.55rem);
-  letter-spacing: -0.075em;
+  font-size: clamp(0.92rem, 1.18vw, 1.12rem);
+  letter-spacing: -0.035em;
 }
 
 .brand-mark span {
-  color: rgba(21,22,28,0.44);
+  color: inherit;
+}
+
+.brand-word > span {
+  color: rgba(255,246,239,0.82);
   font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 0.66rem;
+  font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.05em;
   white-space: nowrap;
+}
+
+.brand-corner {
+  width: 0;
+  height: 0;
+  margin-left: 0.02rem;
+  border-bottom: 0.42rem solid rgba(255,246,239,0.86);
+  border-left: 0.42rem solid transparent;
 }
 
 .theme-dock {
@@ -1639,7 +1722,7 @@ footer span:last-child {
 }
 
 @media (max-width: 760px) {
-  .brand-mark span {
+  .brand-word > span {
     display: none;
   }
 
