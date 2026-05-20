@@ -49,7 +49,12 @@ if (!prefersReducedMotion && window.Lenis) {
   requestAnimationFrame(rafLenis);
 }
 
-window.addEventListener("load", () => {
+let loaderDismissed = false;
+
+function dismissLoader() {
+  if (loaderDismissed) return;
+  loaderDismissed = true;
+
   const loader = document.querySelector(".loader");
   window.setTimeout(() => {
     loader?.classList.add("is-hidden");
@@ -64,7 +69,16 @@ window.addEventListener("load", () => {
     revealHero();
     updateScrollEffects();
   }, prefersReducedMotion ? 100 : 2550);
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", dismissLoader, { once: true });
+} else {
+  dismissLoader();
+}
+
+window.addEventListener("load", dismissLoader, { once: true });
+window.setTimeout(dismissLoader, 4000);
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
