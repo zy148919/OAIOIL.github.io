@@ -20,4 +20,8 @@ This repository is published by GitHub Pages from the `main` branch root.
 
 Live site:
 
-https://zy148919.github.io/OAIOIL.github.io/
+https://oaioil.cn/
+
+GitHub Pages fallback:
+
+https://yuzhang-ai.github.io/OAIOIL.github.io/
